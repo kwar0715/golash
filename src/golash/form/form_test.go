@@ -77,3 +77,71 @@ func TestIsName(t *testing.T) {
 		})
 	}
 }
+
+func TestIsPhone(t *testing.T) {
+	type args struct {
+		number string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "0718967888",
+			args: args{
+				number: "0718967888",
+			},
+			want: true,
+		},
+		{
+			name: "+045366254",
+			args: args{
+				number: "+045366254",
+			},
+			want: true,
+		},
+		{
+			name: "+045-366254",
+			args: args{
+				number: "+045-366254",
+			},
+			want: true,
+		},
+		{
+			name: "045-366254",
+			args: args{
+				number: "045-366254",
+			},
+			want: true,
+		},
+		{
+			name: "045*366254",
+			args: args{
+				number: "045*366254",
+			},
+			want: false,
+		},
+		{
+			name: "045anc366254",
+			args: args{
+				number: "045anc366254",
+			},
+			want: false,
+		},
+		{
+			name: "abchdyg",
+			args: args{
+				number: "abchdyg",
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsPhone(tt.args.number); got != tt.want {
+				t.Errorf("IsPhone() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
